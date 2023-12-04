@@ -1,1 +1,1 @@
-console.log('I love GitHub...');
+console.log('Second Commit, I love GitHub...');
