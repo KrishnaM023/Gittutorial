@@ -30,13 +30,23 @@
 
 // Get-Element-By-ClassName
 
-var item = document.getElementsByClassName('list-group-item');
-console.log(items);
-items.style.fontWeight = 'bold';
-item[1].textContent = 'Hello 2';
-item[1].style.fontWeight = 'bold';
-item[1].style.color = 'green';
-item[2].style.backgroundColor = 'green';
+// var item = document.getElementsByClassName('list-group-item');
+// console.log(items);
+// items.style.fontWeight = 'bold';
+// item[1].textContent = 'Hello 2';
+// item[1].style.fontWeight = 'bold';
+// item[1].style.color = 'green';
+// item[2].style.backgroundColor = 'green';
+
+
+// var li = document.getElementsByClassName('li');
+// console.log(li);
+// li.style.fontWeight = 'bold';
+// li[1].textContent = 'Hello 2';
+// li[1].style.fontWeight = 'bold';
+// li[1].style.color = 'green';
+// li[2].style.backgroundColor = 'green';
+
 
 // This will Gives Error
 //items.style.backgroundColor = '#f4f4f4';
@@ -44,5 +54,28 @@ item[2].style.backgroundColor = 'green';
 /*for(let i = 0; i < items.length; i++){
     items[1].style.backgroundColor = '#f4f4f4';
 }*/
+
+// Query-Selector
+
+var header = document.querySelector('#main-header');
+header.style.backgroundColor = 'solid 5px #ccc';
+
+var input = document.querySelector('input');
+input.value = 'Hello World';
+
+var submit = document.querySelector('input[type="submit"]');
+submit.value = 'SEND';
+
+var item = document.querySelector('.list-group-item');
+item.style.color = 'red';
+
+var lastItem = document.querySelector('.list-group-item:last-child');
+lastItem.style.color = 'blue';
+
+var secondItem = document.querySelector('.list-group-item:nth-child(2)');
+secondItem.style.color = 'coral';
+
+
+
 
 
