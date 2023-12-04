@@ -79,6 +79,7 @@ secondItem.style.color = 'coral';
 
 // Query-Selector-All
 
+/*
 var titles = document.querySelectorAll('.title');
 console.log(titles);
 titles[0].textContent = 'Hello';
@@ -92,6 +93,91 @@ var even = document.querySelectorAll('li:nth-child(even)');
 for(var i = 0; odd.length; i++){
     odd[i].style.backgroundcolor = 'green';
 }
+
+*/
+
+
+// Traversing the DOM
+var itemList = document.querySelector('#items');
+/*
+// Parent-Node
+console.log(itemList.parentNode);
+itemList.parentNode.style.backgroundcolor = '#f4f4f4';
+console.log(itemList.parentNode.parentNode.parentNode);
+
+// Parent-Element
+console.log(itemList.parentElement);
+itemList.parentElement.style.backgroundColor = 'f4f4f4';
+console.log(itemList.parentElement.parentElement.parentElement);
+*/
+
+/*
+// Child-Nodes
+//console.log(itemList.childNodes);
+console.log(itemList.children);
+console.log(itemList.children[1]);
+itemList.children[1].style.backgroundcolor = 'yellow';
+
+// First-Child
+console.log(itemList.firstChild);
+
+// First-Element-Child
+console.log(itemList.firstElementChild);
+itemList.firstElementChild.textContent = 'hello 1';
+
+// Last-Child
+console.log(itemList.lastChild);
+
+// Last-Element-Child
+console.log(itemList.lastElementChild);
+itemList.lastElementChild.textContent = 'hello 4';
+*/
+
+/*
+// Next-Siblings
+console.log(itemList.nextSibling);
+
+//Next-Element-Sibling
+console.log(itemList.nextElementSibling);
+
+// Previous-Sibling
+console.log(itemList.previousSibling);
+
+// Previous-Element-Sibling
+console.log(itemList.previousElementSibling);
+itemList.previousElementSibling.style.color = 'green';
+*/
+
+// Create-Element
+
+// Create Div
+var newDiv = document.createElement('div');
+
+// Add-Class
+newDiv.className = 'hello';
+
+// Add-Id
+newDiv.id = 'hello1';
+
+// Add-Atribute
+newDiv.setAttribute('title', 'Hello Div');
+
+// Create text Node
+var newDivText = document.createTextNode('Hello World!');
+
+//Add text to Div
+newDiv.appendChild(newDivText);
+
+console.log(newDiv);
+
+var container = document.querySelector('header .container');
+var h1 = document.querySelector('header h1');
+
+console.log(newDiv);
+
+newDiv.style.fontSize = '30px';
+
+container.insertBefore(newDiv, h1);
 
 
 
