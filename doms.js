@@ -56,7 +56,7 @@
 }*/
 
 // Query-Selector
-
+/*
 var header = document.querySelector('#main-header');
 header.style.backgroundColor = 'solid 5px #ccc';
 
@@ -74,6 +74,24 @@ lastItem.style.color = 'blue';
 
 var secondItem = document.querySelector('.list-group-item:nth-child(2)');
 secondItem.style.color = 'coral';
+*/
+
+
+// Query-Selector-All
+
+var titles = document.querySelectorAll('.title');
+console.log(titles);
+titles[0].textContent = 'Hello';
+
+var secondItem = document.querySelectorALL('.li:nth-child(2)');
+secondItem.style.color = 'black';
+
+var odd = document.querySelectorAll('li:nth-child(odd)');
+var even = document.querySelectorAll('li:nth-child(even)');
+
+for(var i = 0; odd.length; i++){
+    odd[i].style.backgroundcolor = 'green';
+}
 
 
 
