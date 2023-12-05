@@ -6,13 +6,23 @@ const USERLIST = document.querySelector('#users');
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    const storedName = localStorage.getItem('name');
+    /*const storedName = localStorage.getItem('name');
     const storedEmail = localStorage.getItem('email');
   
     if (storedName && storedEmail) {
       const li = document.createElement('li');
       li.appendChild(document.createTextNode(`${storedName} : ${storedEmail}`));
       USERLIST.appendChild(li);
+    }*/
+
+    // Using JSON.stringfy and JSON.parse
+    const storedData = localStorage.getItem('userData');
+
+    if (storedData) {
+        const { name, email } = JSON.parse(storedData);
+        const li = document.createElement('li');
+        li.appendChild(document.createTextNode(`${name} : ${email}`));
+        USERLIST.appendChild(li);
     }
   });
 
@@ -36,8 +46,11 @@ function onsubmit(e){
         USERLIST.appendChild(li);
 
         // Save to Local Storage
-        localStorage.setItem('name', nameInput.value);
-        localStorage.setItem('email', emailInput.value);
+        //localStorage.setItem('name', nameInput.value);
+        //localStorage.setItem('email', emailInput.value);
+
+        const userData = { name: nameInput.value, email: emailInput.value };
+        localStorage.setItem('userData', JSON.stringify(userData));
 
         // Clear Fields
         nameInput.value = '';
