@@ -70,9 +70,26 @@ function updateList(userDataArray) {
     USERLIST.innerHTML = '';
   
     // Display the updated list
-    arr.forEach(({ name, email }) => {
+    /*arr.forEach(({ name, email }) => {
       const li = document.createElement('li');
+      li.appendChild(document.createTextNode(`${name} : ${email}`));*/
+
+      arr.forEach((userData, index) => {
+        const li = document.createElement('li');
       li.appendChild(document.createTextNode(`${name} : ${email}`));
+
+
+      // Add a delete button
+      const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => {
+        deleteUserData(index);
+        updateList(userDataArray);
+      });
+
+    li.appendChild(deleteButton);
+
+
       USERLIST.appendChild(li);
     });
   }
@@ -80,4 +97,10 @@ function updateList(userDataArray) {
 function getStoredUserData() {
   const storedData = localStorage.getItem('userData');
   return storedData ? JSON.parse(storedData) : [];
+}
+
+
+function deleteUserData(index) {
+  userDataArray.splice(index, 1);
+  localStorage.setItem('userData', JSON.stringify(userDataArray));
 }
