@@ -3,28 +3,27 @@ const nameInput = document.querySelector('#name');
 const emailInput = document.querySelector('#email');
 const msg = document.querySelector('.msg');
 const USERLIST = document.querySelector('#users');
+let userDataArray = getStoredUserData(); // Initialize userDataArray globally
+let arr = Array.from(userDataArray);
 
 
-document.addEventListener('DOMContentLoaded', () => {
-    /*const storedName = localStorage.getItem('name');
-    const storedEmail = localStorage.getItem('email');
-  
-    if (storedName && storedEmail) {
-      const li = document.createElement('li');
-      li.appendChild(document.createTextNode(`${storedName} : ${storedEmail}`));
-      USERLIST.appendChild(li);
-    }*/
 
-    // Using JSON.stringfy and JSON.parse
+  document.addEventListener('DOMContentLoaded', () => {
     const storedData = localStorage.getItem('userData');
-
+  
     if (storedData) {
-        const { name, email } = JSON.parse(storedData);
-        const li = document.createElement('li');
-        li.appendChild(document.createTextNode(`${name} : ${email}`));
-        USERLIST.appendChild(li);
+      arr = JSON.parse(storedData); // Assign the parsed array to the global variable
+      updateList(userDataArray);
     }
+
+    arr.forEach(({ name, email }) => {
+      const li = document.createElement('li');
+      li.appendChild(document.createTextNode(`${name} : ${email}`));
+      USERLIST.appendChild(li);
+    });
   });
+
+  
 
 myForm.addEventListener('submit', onsubmit);
 
@@ -39,21 +38,46 @@ function onsubmit(e){
     }
 
     else{
-        const li = document.createElement('li');
-        li.appendChild(document.createTextNode(`
-        ${nameInput.value} : ${emailInput.value}`));
 
-        USERLIST.appendChild(li);
+        // Retrieve existing data from localStorage or initialize an empty array
+        const storedData = localStorage.getItem('userData');
+        const userDataArray = storedData ? JSON.parse(storedData) : [];
+        
+        
 
-        // Save to Local Storage
-        //localStorage.setItem('name', nameInput.value);
-        //localStorage.setItem('email', emailInput.value);
-
+        // Add new data to the array
         const userData = { name: nameInput.value, email: emailInput.value };
-        localStorage.setItem('userData', JSON.stringify(userData));
+
+        if (!Array.isArray(arr)) {
+          // If it's not an array, initialize it as an empty array
+          arr = [];
+        }
+        arr.push(userData);
+        
+        // Save the updated array back to localStorage
+        localStorage.setItem('userData', JSON.stringify(arr));
+        // Display the updated list
+        updateList(userDataArray);
 
         // Clear Fields
         nameInput.value = '';
         emailInput.value = '';
     }
+}
+
+function updateList(userDataArray) {
+    // Clear the existing list
+    USERLIST.innerHTML = '';
+  
+    // Display the updated list
+    arr.forEach(({ name, email }) => {
+      const li = document.createElement('li');
+      li.appendChild(document.createTextNode(`${name} : ${email}`));
+      USERLIST.appendChild(li);
+    });
+  }
+
+function getStoredUserData() {
+  const storedData = localStorage.getItem('userData');
+  return storedData ? JSON.parse(storedData) : [];
 }
