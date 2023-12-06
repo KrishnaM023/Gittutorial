@@ -13,7 +13,7 @@ let arr = Array.from(userDataArray);
   
     if (storedData) {
       arr = JSON.parse(storedData); // Assign the parsed array to the global variable
-      updateList(userDataArray);
+      updateList(arr);
     }
 
     arr.forEach(({ name, email }) => {
@@ -70,13 +70,17 @@ function updateList(userDataArray) {
     USERLIST.innerHTML = '';
   
     // Display the updated list
-    /*arr.forEach(({ name, email }) => {
-      const li = document.createElement('li');
-      li.appendChild(document.createTextNode(`${name} : ${email}`));*/
 
       arr.forEach((userData, index) => {
         const li = document.createElement('li');
-      li.appendChild(document.createTextNode(`${name} : ${email}`));
+      li.appendChild(document.createTextNode(`${userData.name} : ${userData.email}`));
+
+      // Add Edit button
+      const editButton = document.createElement('button');
+      editButton.textContent = 'Edit';
+      editButton.addEventListener('click', () => {
+        editUserData(index);
+      });
 
 
       // Add a delete button
@@ -86,9 +90,9 @@ function updateList(userDataArray) {
         deleteUserData(index);
         updateList(userDataArray);
       });
-
-    li.appendChild(deleteButton);
-
+    
+      li.appendChild(editButton);  
+      li.appendChild(deleteButton);
 
       USERLIST.appendChild(li);
     });
@@ -103,4 +107,34 @@ function getStoredUserData() {
 function deleteUserData(index) {
   userDataArray.splice(index, 1);
   localStorage.setItem('userData', JSON.stringify(userDataArray));
+}
+
+function editUserData(index) {
+  const userData = arr[index];
+  nameInput.value = userData.name;
+  emailInput.value = userData.email;
+
+  
+  // Handle the edit operation when the form is submitted
+  myForm.addEventListener('submit', function onEditSubmit(e) {
+    e.preventDefault();
+
+    // Update the userDataArray with the edited data
+    arr[index] = { name: nameInput.value, email: emailInput.value };
+
+    // Save the updated array back to local storage
+    localStorage.setItem('userData', JSON.stringify(arr));
+
+    // Update the displayed list
+    updateList(arr);
+    updateList(USERLIST);
+
+
+    // Clear the form fields
+    nameInput.value = '';
+    emailInput.value = '';
+
+    // Remove the temporary event listener
+    myForm.removeEventListener('submit', onEditSubmit);
+  });
 }
