@@ -53,9 +53,20 @@ function onsubmit(e){
           arr = [];
         }
         arr.push(userData);
-        
+
+        axios
+          .post("https://crudcrud.com/api/551361f523c14cee9a512d8c78f05479/appointmentdata", userData)
+          .then((response) => {
+            showNewUserOnScreen(response.data);
+            //console.log(response);
+          })
+          .catch((err) => {
+            document.body.innerHTML = document.body.innerHTML + "<h4>Something went wrong</h4>"
+            console.log(err);
+          })
+          
         // Save the updated array back to localStorage
-        localStorage.setItem('userData', JSON.stringify(arr));
+        //localStorage.setItem('userData', JSON.stringify(arr));
         // Display the updated list
         updateList(userDataArray);
 
