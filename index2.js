@@ -4,7 +4,7 @@ const emailInput = document.querySelector('#email');
 const msg = document.querySelector('.msg');
 const USERLIST = document.querySelector('#users');
 let userDataArray = getStoredUserData(); // Initialize userDataArray globally
-let arr = Array.from(userDataArray);
+//let arr = Array.from(userDataArray);
 
 
 
@@ -38,13 +38,6 @@ function onsubmit(e){
     }
 
     else{
-
-        // Retrieve existing data from localStorage or initialize an empty array
-        const storedData = localStorage.getItem('userData');
-        const userDataArray = storedData ? JSON.parse(storedData) : [];
-        
-        
-
         // Add new data to the array
         const userData = { name: nameInput.value, email: emailInput.value };
 
@@ -52,7 +45,7 @@ function onsubmit(e){
           // If it's not an array, initialize it as an empty array
           arr = [];
         }
-        arr.push(userData);
+        //arr.push(userData);
 
         axios
           .post("https://crudcrud.com/api/551361f523c14cee9a512d8c78f05479/appointmentdata", userData)
@@ -64,11 +57,6 @@ function onsubmit(e){
             document.body.innerHTML = document.body.innerHTML + "<h4>Something went wrong</h4>"
             console.log(err);
           })
-          
-        // Save the updated array back to localStorage
-        //localStorage.setItem('userData', JSON.stringify(arr));
-        // Display the updated list
-        updateList(userDataArray);
 
         // Clear Fields
         nameInput.value = '';
@@ -110,8 +98,21 @@ function updateList(userDataArray) {
   }
 
 function getStoredUserData() {
-  const storedData = localStorage.getItem('userData');
-  return storedData ? JSON.parse(storedData) : [];
+  axios
+      .get("https://crudcrud.com/api/551361f523c14cee9a512d8c78f05479/appointmentdata")
+      .then((response) => {
+
+
+          //showNewUserOnScreen(response.data);
+          console.log(response);
+
+          for(var i = 0; i < response.data.length; i++) {
+            showNewUserOnScreen(response.data[i]);
+          }
+        })
+      .catch((err) => {
+          console.log(err);
+        })
 }
 
 
@@ -148,4 +149,10 @@ function editUserData(index) {
     // Remove the temporary event listener
     myForm.removeEventListener('submit', onEditSubmit);
   });
+}
+
+
+function showNewUserOnScreen(user) {
+  document.getElementById('name').value = user.name;
+  document.getElementById('email').value = user.email; 
 }
