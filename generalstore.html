@@ -31,7 +31,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.24.0/axios.min.js"></script>
     <script>
 
-        function handleFormSubmit(event) {
+        async function handleFormSubmit(event) {
             event.preventDefault();
 
             const itemName = event.target.itemname.value;
@@ -47,18 +47,18 @@
             };
 
             // Post detail on CRUD
-            axios.post('https://crudcrud.com/api/2d9ed5425442417c85488cdf56151cf2/appointmentdata', obj)
-                .then((response) => {
-                    showUserOnScreen(response.data);
-                    console.log(response);
+            try {
+                const response = await axios.post('https://crudcrud.com/api/0af50178f61d41578762ab6754b59d00/appointmentdata', obj)
+                showUserOnScreen(response.data);
+                console.log(response);
 
-                    var sum1 = calculate();
-                    updateTotal(sum1);
-                })
-                .catch((err) => {
-                    document.body.innerHTML = document.body.innerHTML + "<h4>Oops! something went wrong</h4>";
-                    console.log(err);
-                });
+                var sum1 = calculate();
+                updateTotal(sum1);
+            }
+            catch(err) {
+                document.body.innerHTML = document.body.innerHTML + "<h4>Oops! something went wrong</h4>";
+                console.log(err);
+            }
 
             document.getElementById('itemname').value = '';
             document.getElementById('description').value = '';
@@ -67,18 +67,19 @@
         }
 
         // Retrieve from CRUD
-        window.addEventListener("DOMContentLoaded", () => {
-            axios.get('https://crudcrud.com/api/2d9ed5425442417c85488cdf56151cf2/appointmentdata')
-                .then((response) => {
-                    console.log(response);
+        window.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const response = await axios.get('https://crudcrud.com/api/0af50178f61d41578762ab6754b59d00/appointmentdata')
+                console.log(response);
 
-                    for (let i = 0; i < response.data.length; i++) {
-                        showUserOnScreen(response.data[i]);
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
+                for (let i = 0; i < response.data.length; i++) {
+                    showUserOnScreen(response.data[i]);
+                }
+            }
+            catch(err) {
+                console.log(err);
+            }
+
         });
 
         // Print detail on screen
@@ -86,14 +87,14 @@
             const parentNode = document.getElementById('listofitems');
 
             const childNode = `<li id="${obj._id}">${obj.itemName} - ${obj.description} - ${obj.price} - ${obj.quantity}
-                <button style="color:red" onclick="deleteUser('${obj._id}', '${encodeURIComponent(obj.itemName)}')">Delete Order</button>
-                <button style="color:green" onclick="editUserDetails('${obj._id}', '${obj.itemName}', '${obj.description}', '${obj.price}', '${obj.quantity}')">Edit Order</button>
+                <button style="color:red" onclick="deleteItem('${obj._id}', '${encodeURIComponent(obj.itemName)}')">Delete Order</button>
+                <button style="color:green" onclick="editItemDetails('${obj._id}', '${obj.itemName}', '${obj.description}', '${obj.price}', '${obj.quantity}')">Edit Order</button>
                 <hr>
                 </li>`;
             parentNode.innerHTML = parentNode.innerHTML + childNode;
         }
 
-        // Edit users detail
+        // Edit Item details
         function editItemDetails(id, itemName, description, price, quantity) {
             document.getElementById('itemname').value = itemName;
             document.getElementById('description').value = description;
@@ -104,14 +105,14 @@
         }
 
         // Delete from CRUD
-        function deleteItem(id, itemName) {
-            axios.delete(`https://crudcrud.com/api/2d9ed5425442417c85488cdf56151cf2/appointmentdata/${id}`)
-                .then((res) => {
+        async function deleteItem(id, itemName) {
+            try{
+             const response = await axios.delete(`https://crudcrud.com/api/0af50178f61d41578762ab6754b59d00/appointmentdata/${id}`)
                     removeItemFromScreen(id, itemName);
-                })
-                .catch((err) => {
+                }
+                catch(err) {
                     console.log(err);
-                });
+                }
         }
 
         // Delete from screen
